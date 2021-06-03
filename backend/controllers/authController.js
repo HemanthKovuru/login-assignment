@@ -74,7 +74,8 @@ exports.signup = async (req, res, next) => {
         },
       });
 
-      sendConfirmationEmail(req.body.username, req.body.email, token);
+      const url = `${req.protocol}://${req.hostname}/api/vi1/users/confirm ${token}`;
+      sendConfirmationEmail(req.body.username, req.body.email, token, url);
     });
   } catch (err) {
     res.status(400).json({
@@ -173,7 +174,20 @@ exports.confirmationSignup = async (req, res) => {
       user.status = "Active";
       user.confirmationCode = undefined;
       await user.save();
-      res.redirect(`${req.protocol}://${req.hostname}`);
+      const token = getToken(user._id);
+
+      let cookieOptions = {
+        expiresIn: new Date(
+          Date.now() + process.env.JWT_EXPIRES_IN + 24 * 60 * 60 * 1000
+        ),
+        httpOnly: true,
+      };
+
+      if (process.env.NODE_ENV === "production") {
+        cookieOptions.secure = true;
+      }
+      res.cookie("jwt", token, cookieOptions);
+      res.redirect("/");
     }
   } catch (err) {
     res.status(500).json({

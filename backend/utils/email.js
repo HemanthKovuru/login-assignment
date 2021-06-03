@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-const sendConfirmationEmail = (name, userEmail, confirmationCode) => {
+const sendConfirmationEmail = (name, userEmail, confirmationCode, url) => {
   const transporter = nodemailer.createTransport({
     service: "Gmail",
     auth: {
@@ -15,7 +15,7 @@ const sendConfirmationEmail = (name, userEmail, confirmationCode) => {
     html: `<h1>Email Confirmation</h1>
         <h2>Hello ${name}</h2>
         <p>Thank you for signing up. Please confirm your email by clicking on the following link</p>
-        <a href=http://localhost:4000/api/v1/users/confirm/${confirmationCode}> Click here</a>
+        <a href=${url}> Click here</a>
         </div>`,
   };
 
