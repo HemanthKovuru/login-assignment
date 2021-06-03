@@ -42,10 +42,7 @@ const sendToken = (user, statusCode, res) => {
 // signup
 exports.signup = async (req, res, next) => {
   try {
-    const token = jwt.sign(
-      { email: "hemanthkovuruk3@gmail.com" },
-      process.env.JWT_SECRET
-    );
+    const token = jwt.sign({ email: req.body.email }, process.env.JWT_SECRET);
 
     const user = await User.create({
       firstname: req.body.firstname,
@@ -74,7 +71,7 @@ exports.signup = async (req, res, next) => {
         },
       });
 
-      const url = `${req.protocol}://${req.hostname}/api/vi1/users/confirm ${token}`;
+      const url = `https://assignment-pritam-nursery.herokuapp.com/api/v1/users/confirm/${token}`;
       sendConfirmationEmail(req.body.username, req.body.email, token, url);
     });
   } catch (err) {
