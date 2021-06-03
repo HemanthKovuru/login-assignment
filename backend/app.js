@@ -9,7 +9,16 @@ const cors = require("cors");
 app.use(cookieParser());
 
 // cors
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+if (process.env.NODE_ENV === "production") {
+  app.use(
+    cors({
+      origin: "https://assignment-pritam-nursery.herokuapp.com",
+      credentials: true,
+    })
+  );
+} else {
+  app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+}
 
 // body parser
 app.use(express.json());
