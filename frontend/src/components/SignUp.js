@@ -19,6 +19,20 @@ const SignUp = ({ setSignUpPopUp, setOpenPopUp, setAlertPopUp }) => {
 
   const handleSignup = async (evt) => {
     evt.preventDefault();
+    // const username2 = data.username;
+    // console.log(username2);
+    // if (username2.startsWith(".")) {
+    //   username2[0] = "";
+    // }
+    // if (username2.endsWith(".")) {
+    //   const end = username2.length - 1;
+    //   username2[end] = "";
+    // }
+    // if (username2.includes("..")) {
+    //   username2.replace("..", "");
+    // }
+    // setData({ ...data, username: username2 });
+    // console.log(username2);
     try {
       // get data
       const user = await axios.post(
@@ -33,7 +47,6 @@ const SignUp = ({ setSignUpPopUp, setOpenPopUp, setAlertPopUp }) => {
         localStorage.setItem("user", JSON.stringify(user.data.data.user));
         setSignUpPopUp(false);
         setAlertPopUp(true);
-        console.log(user);
       }
     } catch (err) {
       let errors = Object.values(err.response.data.errors).map(
@@ -83,6 +96,16 @@ const SignUp = ({ setSignUpPopUp, setOpenPopUp, setAlertPopUp }) => {
             placeholder='Username'
             required
           />
+          {data.username.startsWith(".") || data.username.endsWith(".") ? (
+            <div style={{ color: "red", textAlign: "left" }}>
+              username cannot start and end with a Dot (.)
+            </div>
+          ) : null}
+          {data.username.includes("..") ? (
+            <div style={{ color: "red", textAlign: "left" }}>
+              username cannot contain two or more than one Dots
+            </div>
+          ) : null}
           <input
             onChange={(evt) => setData({ ...data, email: evt.target.value })}
             className='form__input'
@@ -90,7 +113,6 @@ const SignUp = ({ setSignUpPopUp, setOpenPopUp, setAlertPopUp }) => {
             placeholder='Email'
             required
           />
-          {/* <div className="err-msg">WEoor logging in</div> */}
           <div className='eye-box'>
             <input
               onChange={(evt) =>
@@ -145,7 +167,7 @@ const SignUp = ({ setSignUpPopUp, setOpenPopUp, setAlertPopUp }) => {
             )}
           </div>
           <ul className='mg1' style={{ textAlign: "left", color: "red" }}>
-            {errors && errors.map((msg) => <li>{msg}</li>)}
+            {errors && errors.map((msg) => <li key={msg}>{msg}</li>)}
           </ul>
           <button onClick={handleSignup} className='btn btn-submit'>
             Sign Up

@@ -5,6 +5,9 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
 
+import EyeOpen from "./../asserts/eye-solid.svg";
+import EyeClose from "./../asserts/eye-slash.svg";
+
 const SignIn = ({ setOpenPopUp, setSignUpPopUp }) => {
   const handleClick = () => {
     setOpenPopUp(false);
@@ -96,13 +99,32 @@ const SignIn = ({ setOpenPopUp, setSignUpPopUp }) => {
             required
           />
           {/* <div className="err-msg">WEoor logging in</div> */}
-          <input
-            onChange={(evt) => setData({ ...data, password: evt.target.value })}
-            className='form__input'
-            type='password'
-            placeholder='Password'
-            required
-          />
+          <div className='eye-box'>
+            <input
+              onChange={(evt) =>
+                setData({ ...data, password: evt.target.value })
+              }
+              className='form__input'
+              type={visible ? "text" : "password"}
+              placeholder='Password'
+              required
+            />
+            {visible ? (
+              <img
+                onClick={() => setVisible(!visible)}
+                className='eye'
+                src={EyeClose}
+                alt='eye open'
+              />
+            ) : (
+              <img
+                onClick={() => setVisible(!visible)}
+                className='eye'
+                src={EyeOpen}
+                alt='eye open'
+              />
+            )}
+          </div>
           {msg && <div style={{ color: "red", marginTop: "1rem" }}>{msg}</div>}
           <button className='btn btn-submit'>Sign In</button>
 

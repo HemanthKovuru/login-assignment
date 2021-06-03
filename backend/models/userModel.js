@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Firstname is required."],
     trim: true,
+    minlength: 3,
   },
   lastname: {
     type: String,
@@ -19,6 +20,7 @@ const userSchema = new mongoose.Schema({
     trim: true,
     unique: true,
     minlength: 3,
+    maxlength: 30,
   },
   profilePic: {
     type: String,

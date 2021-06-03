@@ -129,6 +129,12 @@ exports.signin = async (req, res, next) => {
 
     // check if user exists and password is correct
     const user = await User.findOne({ email });
+    if (user.status === "Pending") {
+      res.status(400).json({
+        message: "Your Account is Pending. Please verify your email address",
+      });
+      return next();
+    }
 
     if (!user || !(await user.checkPassword(password, user.password))) {
       res.status(400).json({ message: "Incorrect  email or password" });
