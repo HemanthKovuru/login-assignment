@@ -9,7 +9,7 @@ const cors = require("cors");
 app.use(cookieParser());
 
 // cors
-app.use(cors({ origin: "http://localhost:4000", credentials: true }));
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 // body parser
 app.use(express.json());
